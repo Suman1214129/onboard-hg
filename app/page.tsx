@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { CheckCircle, Circle, GraduationCap, ChalkboardTeacher, ArrowRight } from "@phosphor-icons/react";
+import { CheckCircle, Circle, GraduationCap, ChalkboardTeacher, ArrowRight, VideoCamera, Users, Sparkle, CurrencyCircleDollar, Clock } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import DefaultSprite from "../assets/hoot.png";
 import StudentSprite from "../assets/student.png";
@@ -180,7 +180,10 @@ export default function OnboardingPage() {
             <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
               Every lesson,
             </p>
-            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
+            <p 
+              className="text-[2.2rem] font-bold tracking-tight italic leading-snug pb-1 transition-colors duration-500"
+              style={{ color: t.primary }}
+            >
               a leap forward.
             </p>
           </div>
@@ -191,14 +194,37 @@ export default function OnboardingPage() {
 
           {/* Minimal Chips */}
           <div className="flex flex-wrap justify-center gap-2 mt-2">
-            {["10k+ Learners", "500+ Tutors", "4.9 ★ Rating"].map((chip) => (
-              <span
-                key={chip}
-                className="text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] shadow-sm"
-              >
-                {chip}
-              </span>
-            ))}
+            {selected === "learner" ? (
+              <>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <VideoCamera size={14} weight="bold" color={t.primary} />
+                  1-on-1 Live
+                </span>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <Users size={14} weight="bold" color={t.primary} />
+                  Expert Tutors
+                </span>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <Sparkle size={14} weight="bold" color={t.primary} />
+                  Personalization
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <VideoCamera size={14} weight="bold" color={t.primary} />
+                  Teach Live
+                </span>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <CurrencyCircleDollar size={14} weight="bold" color={t.primary} />
+                  Earn Money
+                </span>
+                <span className="flex items-center gap-1.5 text-[12px] font-medium px-4 py-1.5 rounded-full border border-[#e1e2ec] bg-white/60 backdrop-blur-md text-[#44474f] transition-colors duration-500">
+                  <Clock size={14} weight="bold" color={t.primary} />
+                  Flexible Hours
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>

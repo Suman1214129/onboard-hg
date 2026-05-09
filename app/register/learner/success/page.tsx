@@ -19,7 +19,7 @@ export default function LearnerSuccessPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* ── Left Panel ── */}
+      {/* â”€â”€ Left Panel â”€â”€ */}
       <div className="w-1/2 relative overflow-hidden flex flex-col px-12 py-10 bg-gradient-to-br from-[#e6edfc] via-[#fcfcfd] to-[#fce4d2] border-r border-[#e1e2ec]">
         <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-[#2251cc] opacity-[0.08] blur-[140px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[90%] h-[90%] bg-[#e07b2a] opacity-[0.08] blur-[160px] rounded-full pointer-events-none" />
@@ -51,7 +51,7 @@ export default function LearnerSuccessPage() {
             <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
               You are
             </p>
-            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
+            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#2251cc] pb-1">
               all set.
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function LearnerSuccessPage() {
         </div>
       </div>
 
-      {/* ── Right Panel ── */}
+      {/* â”€â”€ Right Panel â”€â”€ */}
       <div className="w-1/2 bg-[#fafafa] flex items-center justify-center">
         <div className="flex flex-col items-center justify-center text-center max-w-sm px-8">
           <div className="w-20 h-20 rounded-full bg-[#e6edfc] flex items-center justify-center mb-6">

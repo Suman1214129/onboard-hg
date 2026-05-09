@@ -15,7 +15,7 @@ const LEVELS = [
     levelIndicator: 1,
     icon: HandWaving,
     labelTemplate: "I'm new to {subject}",
-    desc: "Just starting out — no prior experience.",
+    desc: "Just starting out â€” no prior experience.",
   },
   {
     key: "basics",
@@ -43,7 +43,7 @@ const LEVELS = [
     levelIndicator: 5,
     icon: Medal,
     labelTemplate: "I can discuss most {subject} topics in detail",
-    desc: "Strong grasp — looking to master advanced concepts.",
+    desc: "Strong grasp â€” looking to master advanced concepts.",
   },
 ] as const;
 
@@ -84,7 +84,7 @@ function LevelContent() {
   return (
     <div className="flex h-screen overflow-hidden">
 
-      {/* ── Left Panel ── */}
+      {/* â”€â”€ Left Panel â”€â”€ */}
       <div className="w-1/2 relative overflow-hidden flex flex-col px-12 py-10 bg-gradient-to-br from-[#e6edfc] via-[#fcfcfd] to-[#fce4d2] border-r border-[#e1e2ec]">
         <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-[#2251cc] opacity-[0.08] blur-[140px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[90%] h-[90%] bg-[#e07b2a] opacity-[0.08] blur-[160px] rounded-full pointer-events-none" />
@@ -116,13 +116,13 @@ function LevelContent() {
             <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
               Every expert
             </p>
-            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
+            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#2251cc] pb-1">
               was once a beginner.
             </p>
           </div>
 
           <p className="text-[14px] leading-relaxed max-w-[240px] text-[#44474f] font-medium">
-            There's no wrong answer — be honest so we can find the perfect tutor for you.
+            There's no wrong answer â€” be honest so we can find the perfect tutor for you.
           </p>
 
           {/* subject pill */}
@@ -147,7 +147,7 @@ function LevelContent() {
         </div>
       </div>
 
-      {/* ── Right Panel ── */}
+      {/* â”€â”€ Right Panel â”€â”€ */}
       <div className="w-1/2 bg-[#fafafa] overflow-y-auto custom-scrollbar">
         <style>{`
           .custom-scrollbar::-webkit-scrollbar { width: 6px; }
