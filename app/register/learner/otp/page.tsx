@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { WhatsappLogo } from "@phosphor-icons/react";
-import LeftPanel from "@/app/components/LeftPanel";
+import { WhatsappLogo, ArrowRight } from "@phosphor-icons/react";
+import StudentSprite from "../../../../assets/student.png";
 
 const PRIMARY = "#2251cc";
 const PRIMARY_LIGHT = "#dce6fb";
@@ -45,9 +45,48 @@ export default function LearnerOtpPage() {
   return (
     <div className="flex min-h-screen">
 
-      <LeftPanel bg={PRIMARY_LIGHT} primary={PRIMARY} onPrimaryContainer="#001258"
-        img="/authenticate.png" line1="Almost there," line2="verify yourself."
-        sub="Enter the 6-digit code sent to your WhatsApp." />
+      {/* ── Left Panel ── */}
+      <div className="w-1/2 relative overflow-hidden flex flex-col px-12 py-10 bg-gradient-to-br from-[#e6edfc] via-[#fcfcfd] to-[#fce4d2] border-r border-[#e1e2ec]">
+        <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-[#2251cc] opacity-[0.08] blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[90%] h-[90%] bg-[#e07b2a] opacity-[0.08] blur-[160px] rounded-full pointer-events-none" />
+
+        <div className="relative z-10 w-full">
+          <Image src="/logo.png" alt="HomeGuru Logo" width={130} height={40} priority />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 gap-8 text-center mt-8">
+          <style>{`
+            @keyframes play-role-sprite {
+              from { transform: translateX(0); }
+              to { transform: translateX(-100%); }
+            }
+            .role-sprite-anim {
+              animation: play-role-sprite 2.5s steps(5) infinite;
+            }
+          `}</style>
+          <div className="w-[140px] h-[140px] overflow-hidden drop-shadow-sm">
+            <img 
+              src={StudentSprite.src} 
+              alt="Learner Mascot" 
+              className="h-[140px] max-w-none role-sprite-anim block"
+              style={{ width: "calc(140px * 5)" }}
+            />
+          </div>
+
+          <div>
+            <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
+              Almost there,
+            </p>
+            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
+              verify yourself.
+            </p>
+          </div>
+
+          <p className="text-[14px] leading-relaxed max-w-[240px] text-[#44474f] font-medium">
+            Enter the 6-digit code sent to your WhatsApp.
+          </p>
+        </div>
+      </div>
 
       {/* ── Right Panel ── */}
       <div className="w-1/2 bg-[#fafafa] flex items-center justify-center">
@@ -103,11 +142,13 @@ export default function LearnerOtpPage() {
           <button
             onClick={() => router.push("/register/learner/password")}
             disabled={!filled}
-            className="w-full py-2.5 rounded-full text-[14px] font-medium tracking-[0.00625em] transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
-            style={{ backgroundColor: filled ? PRIMARY : `${PRIMARY}40`, color: "#fff", cursor: filled ? "pointer" : "not-allowed" }}
+            className={`group w-full h-[40px] rounded-full text-[14px] font-medium tracking-[0.1px] transition-all duration-500 mt-2 flex items-center justify-center gap-2 ${
+              filled ? "active:scale-[0.98] hover:opacity-90 cursor-pointer" : "opacity-50 cursor-not-allowed"
+            }`}
+            style={{ backgroundColor: PRIMARY, color: "#ffffff" }}
           >
             Verify OTP
-            <span className="material-symbols-rounded text-[18px]">arrow_forward</span>
+            <ArrowRight size={18} weight="bold" className={`transition-transform duration-300 ${filled ? "group-hover:translate-x-1" : ""}`} />
           </button>
 
         </div>

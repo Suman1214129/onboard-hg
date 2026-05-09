@@ -2,20 +2,21 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle, ArrowRight, ArrowLeft, BookOpenText, Palette } from "@phosphor-icons/react";
+import StudentSprite from "../../../../assets/student.png";
 
 const PRIMARY = "#2251cc";
 const PRIMARY_LIGHT = "#dce6fb";
 
 const OPTIONS = {
   academic: {
-    icon: "menu_book",
+    icon: BookOpenText,
     label: "Academic",
     tagline: "School subjects, exams & competitive prep",
     tags: ["Maths", "Science", "English", "History", "Physics", "Chemistry", "Biology", "Languages"],
   },
   "non-academic": {
-    icon: "palette",
+    icon: Palette,
     label: "Non-Academic",
     tagline: "Creative skills, hobbies & personal growth",
     tags: ["Music", "Art & Craft", "Coding", "Sports", "Dance", "Yoga", "Photography", "Chess"],
@@ -32,23 +33,44 @@ export default function LearnerInterestsPage() {
     <div className="flex min-h-screen">
 
       {/* ── Left Panel ── */}
-      <div className="w-1/2 flex flex-col px-12 py-10" style={{ backgroundColor: PRIMARY_LIGHT }}>
-        <Image src="/logo.png" alt="HomeGuru" width={130} height={40} priority />
+      <div className="w-1/2 relative overflow-hidden flex flex-col px-12 py-10 bg-gradient-to-br from-[#e6edfc] via-[#fcfcfd] to-[#fce4d2] border-r border-[#e1e2ec]">
+        <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-[#2251cc] opacity-[0.08] blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[90%] h-[90%] bg-[#e07b2a] opacity-[0.08] blur-[160px] rounded-full pointer-events-none" />
 
-        <div className="flex flex-col items-center justify-center flex-1 gap-8 text-center">
-          <div className="rounded-[28px] p-5" style={{ backgroundColor: `${PRIMARY}18` }}>
-            <Image src="/owl.png" alt="Owl mascot" width={260} height={260} />
+        <div className="relative z-10 w-full">
+          <Image src="/logo.png" alt="HomeGuru Logo" width={130} height={40} priority />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 gap-8 text-center mt-8">
+          <style>{`
+            @keyframes play-role-sprite {
+              from { transform: translateX(0); }
+              to { transform: translateX(-100%); }
+            }
+            .role-sprite-anim {
+              animation: play-role-sprite 2.5s steps(5) infinite;
+            }
+          `}</style>
+          <div className="w-[140px] h-[140px] overflow-hidden">
+            <img 
+              src={StudentSprite.src} 
+              alt="Learner Mascot" 
+              className="h-[140px] max-w-none role-sprite-anim block"
+              style={{ width: "calc(140px * 5)" }}
+            />
           </div>
 
           <div>
-            <p className="text-[2rem] font-medium tracking-[-0.02em] text-[#1a1c1e] leading-snug">Tell us what</p>
-            <p className="text-[2rem] font-semibold tracking-[-0.02em] italic leading-snug" style={{ color: PRIMARY }}>
+            <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
+              Tell us what
+            </p>
+            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
               excites you.
             </p>
           </div>
 
-          <p className="text-sm leading-6 max-w-[200px]" style={{ color: "#001258" }}>
-            We&apos;ll personalise your experience around your interests.
+          <p className="text-[14px] leading-relaxed max-w-[240px] text-[#44474f] font-medium">
+            We'll personalise your experience around your interests.
           </p>
         </div>
       </div>
@@ -58,7 +80,7 @@ export default function LearnerInterestsPage() {
         <div className="w-full max-w-md px-10 flex flex-col gap-5">
 
           <button onClick={() => router.back()} className="flex items-center gap-1.5 text-[13px] font-medium w-fit" style={{ color: PRIMARY }}>
-            <span className="material-symbols-rounded text-[18px]">arrow_back</span>
+            <ArrowLeft size={18} weight="bold" />
             Back
           </button>
 
@@ -80,39 +102,38 @@ export default function LearnerInterestsPage() {
                 <button
                   key={key}
                   onClick={() => setSelected(key)}
-                  className="w-full text-left rounded-[20px] overflow-hidden transition-all duration-200"
+                  className="w-full text-left rounded-[24px] overflow-hidden transition-all duration-300 relative group"
                   style={{
-                    border: `1.5px solid ${isSelected ? PRIMARY : "#e1e2ec"}`,
-                    backgroundColor: isSelected ? PRIMARY_LIGHT : "#ffffff",
+                    border: `2px solid ${isSelected ? PRIMARY : "#e1e2ec"}`,
+                    backgroundColor: isSelected ? "#f8faff" : "#ffffff",
                   }}
                 >
                   {/* Header */}
-                  <div className="px-5 pt-5 pb-4 flex items-center gap-4">
+                  <div className="px-5 pt-5 pb-4 flex items-center gap-4 relative z-10">
                     <div
-                      className="w-11 h-11 rounded-[14px] flex items-center justify-center shrink-0 transition-colors duration-200"
-                      style={{ backgroundColor: isSelected ? PRIMARY : "#ebebf0" }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center shrink-0 transition-colors duration-300"
+                      style={{ backgroundColor: isSelected ? PRIMARY : "#f4f4f8" }}
                     >
-                      <span
-                        className="material-symbols-rounded text-[22px]"
-                        style={{ color: isSelected ? "#ffffff" : "#5c5f6a" }}
-                      >
-                        {opt.icon}
-                      </span>
+                      <opt.icon
+                        size={24}
+                        weight={isSelected ? "fill" : "duotone"}
+                        color={isSelected ? "#ffffff" : PRIMARY}
+                      />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <p
-                        className="font-semibold text-[15px] leading-tight transition-colors duration-200"
+                        className="font-bold text-[16px] leading-tight transition-colors duration-300"
                         style={{ color: isSelected ? PRIMARY : "#1a1c1e" }}
                       >
                         {opt.label}
                       </p>
-                      <p className="text-[12px] text-[#6b6f7a] mt-0.5 leading-relaxed">{opt.tagline}</p>
+                      <p className="text-[12.5px] text-[#6b6f7a] mt-1 leading-relaxed">{opt.tagline}</p>
                     </div>
 
                     {isSelected
-                      ? <CheckCircle size={22} weight="fill" color={PRIMARY} className="shrink-0" />
-                      : <div className="w-[22px] h-[22px] rounded-full border-2 shrink-0" style={{ borderColor: "#c4c6d0" }} />
+                      ? <CheckCircle size={24} weight="fill" color={PRIMARY} className="shrink-0" />
+                      : <div className="w-6 h-6 rounded-full border-2 shrink-0 transition-colors group-hover:border-[#a0a3b0]" style={{ borderColor: "#dce0ea" }} />
                     }
                   </div>
 
@@ -144,15 +165,13 @@ export default function LearnerInterestsPage() {
           <button
             onClick={() => selected && router.push(`/register/learner/subjects?category=${selected}`)}
             disabled={!selected}
-            className="w-full py-2.5 rounded-full text-[14px] font-medium tracking-[0.00625em] transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
-            style={{
-              backgroundColor: selected ? PRIMARY : `${PRIMARY}40`,
-              color: "#fff",
-              cursor: selected ? "pointer" : "not-allowed",
-            }}
+            className={`group w-full h-[40px] rounded-full text-[14px] font-medium tracking-[0.1px] transition-all duration-500 flex items-center justify-center gap-2 mt-2 ${
+              selected ? "active:scale-[0.98] hover:opacity-90 cursor-pointer" : "opacity-50 cursor-not-allowed"
+            }`}
+            style={{ backgroundColor: PRIMARY, color: "#ffffff" }}
           >
             Continue
-            <span className="material-symbols-rounded text-[18px]">arrow_forward</span>
+            <ArrowRight size={18} weight="bold" className={`transition-transform duration-300 ${selected ? "group-hover:translate-x-1" : ""}`} />
           </button>
 
         </div>

@@ -2,90 +2,142 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle, ArrowRight, ArrowLeft, HandWaving, Lightbulb, GraduationCap, TrendUp, Medal, Circle } from "@phosphor-icons/react";
 import { Suspense } from "react";
+import StudentSprite from "../../../../assets/student.png";
 
 const PRIMARY = "#2251cc";
-const PRIMARY_LIGHT = "#dce6fb";
+const PRIMARY_LIGHT = "#e6edfc";
 
 const LEVELS = [
   {
-    key: "beginner",
-    icon: "emoji_nature",
-    label: "Just starting out",
-    desc: "I have little to no experience with this.",
+    key: "new",
+    levelIndicator: 1,
+    icon: HandWaving,
+    labelTemplate: "I'm new to {subject}",
+    desc: "Just starting out — no prior experience.",
   },
   {
-    key: "some",
-    icon: "local_library",
-    label: "Know the basics",
-    desc: "I've covered the fundamentals but need more depth.",
+    key: "basics",
+    levelIndicator: 2,
+    icon: Lightbulb,
+    labelTemplate: "I know some basics",
+    desc: "Familiar with a few concepts but need guidance.",
   },
   {
-    key: "intermediate",
-    icon: "trending_up",
-    label: "Getting comfortable",
-    desc: "I can handle most topics but have gaps to fill.",
+    key: "handle_basic",
+    levelIndicator: 3,
+    icon: GraduationCap,
+    labelTemplate: "I can handle basic {subject} concepts",
+    desc: "Comfortable with fundamentals, ready to go deeper.",
   },
   {
-    key: "advanced",
-    icon: "workspace_premium",
-    label: "Pretty advanced",
-    desc: "I want to sharpen, specialise or go competitive.",
+    key: "work_various",
+    levelIndicator: 4,
+    icon: TrendUp,
+    labelTemplate: "I can work with various {subject} topics",
+    desc: "Good understanding across multiple areas.",
+  },
+  {
+    key: "discuss_detail",
+    levelIndicator: 5,
+    icon: Medal,
+    labelTemplate: "I can discuss most {subject} topics in detail",
+    desc: "Strong grasp — looking to master advanced concepts.",
   },
 ] as const;
-
-type Level = typeof LEVELS[number]["key"];
 
 function LevelContent() {
   const router = useRouter();
   const params = useSearchParams();
-  const category = params.get("category") ?? "academic";
   const subjectsParam = params.get("subjects") ?? "";
   const subjects = subjectsParam ? decodeURIComponent(subjectsParam).split(",") : [];
-  const firstSubject = subjects[0] ?? "this subject";
 
-  const [selected, setSelected] = useState<Level | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentSubject = subjects[currentIndex] || "this subject";
+  
+  const [subjectLevels, setSubjectLevels] = useState<Record<string, string>>({});
+
+  const currentLevelSelected = subjectLevels[currentSubject];
+
+  const handleLevelSelect = (levelKey: string) => {
+    setSubjectLevels(prev => ({ ...prev, [currentSubject]: levelKey }));
+  };
 
   function handleContinue() {
-    if (!selected) return;
-    // next step — for now goes home
-    router.push("/");
+    if (!currentLevelSelected) return;
+    if (currentIndex < subjects.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      router.push("/register/learner/profile");
+    }
+  }
+
+  function handleBack() {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else {
+      router.back();
+    }
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
 
       {/* ── Left Panel ── */}
-      <div className="w-1/2 flex flex-col px-12 py-10" style={{ backgroundColor: PRIMARY_LIGHT }}>
-        <Image src="/logo.png" alt="HomeGuru" width={130} height={40} priority />
+      <div className="w-1/2 relative overflow-hidden flex flex-col px-12 py-10 bg-gradient-to-br from-[#e6edfc] via-[#fcfcfd] to-[#fce4d2] border-r border-[#e1e2ec]">
+        <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-[#2251cc] opacity-[0.08] blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[90%] h-[90%] bg-[#e07b2a] opacity-[0.08] blur-[160px] rounded-full pointer-events-none" />
 
-        <div className="flex flex-col items-center justify-center flex-1 gap-8 text-center">
-          <div className="rounded-[28px] p-5" style={{ backgroundColor: `${PRIMARY}18` }}>
-            <Image src="/owl.png" alt="Owl mascot" width={260} height={260} />
+        <div className="relative z-10 w-full">
+          <Image src="/logo.png" alt="HomeGuru Logo" width={130} height={40} priority />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 gap-8 text-center mt-8">
+          <style>{`
+            @keyframes play-role-sprite {
+              from { transform: translateX(0); }
+              to { transform: translateX(-100%); }
+            }
+            .role-sprite-anim {
+              animation: play-role-sprite 2.5s steps(5) infinite;
+            }
+          `}</style>
+          <div className="w-[140px] h-[140px] overflow-hidden">
+            <img 
+              src={StudentSprite.src} 
+              alt="Learner Mascot" 
+              className="h-[140px] max-w-none role-sprite-anim block"
+              style={{ width: "calc(140px * 5)" }}
+            />
           </div>
 
           <div>
-            <p className="text-[2rem] font-medium tracking-[-0.02em] text-[#1a1c1e] leading-snug">
+            <p className="text-[2rem] font-medium tracking-tight text-[#1a1c1e] leading-snug">
               Every expert
             </p>
-            <p className="text-[2rem] font-semibold tracking-[-0.02em] italic leading-snug" style={{ color: PRIMARY }}>
+            <p className="text-[2.2rem] font-bold tracking-tight italic leading-snug text-[#e07b2a] pb-1">
               was once a beginner.
             </p>
           </div>
 
-          <p className="text-sm leading-6 max-w-[220px]" style={{ color: "#001258" }}>
-            There&apos;s no wrong answer — be honest so we can find the perfect tutor for you.
+          <p className="text-[14px] leading-relaxed max-w-[240px] text-[#44474f] font-medium">
+            There's no wrong answer — be honest so we can find the perfect tutor for you.
           </p>
 
           {/* subject pill */}
           {subjects.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-2">
-              {subjects.map((s) => (
+            <div className="flex flex-wrap justify-center gap-2 absolute bottom-12">
+              {subjects.map((s, idx) => (
                 <span
                   key={s}
-                  className="text-xs font-medium px-4 py-1.5 rounded-full border"
-                  style={{ backgroundColor: "#dde1ff", color: PRIMARY, borderColor: `${PRIMARY}30` }}
+                  className="text-xs font-medium px-4 py-1.5 rounded-full border transition-all duration-300"
+                  style={{ 
+                    backgroundColor: idx === currentIndex ? PRIMARY : "#ffffff", 
+                    color: idx === currentIndex ? "#ffffff" : "#44474f", 
+                    borderColor: idx === currentIndex ? PRIMARY : "#e1e2ec",
+                    transform: idx === currentIndex ? "scale(1.05)" : "scale(1)"
+                  }}
                 >
                   {s}
                 </span>
@@ -96,85 +148,91 @@ function LevelContent() {
       </div>
 
       {/* ── Right Panel ── */}
-      <div className="w-1/2 bg-[#fafafa] flex items-center justify-center">
-        <div className="w-full max-w-md px-10 flex flex-col gap-5">
+      <div className="w-1/2 bg-[#fafafa] overflow-y-auto custom-scrollbar">
+        <style>{`
+          .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+          .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+          .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce0ea; border-radius: 10px; }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #c4c6d0; }
+        `}</style>
+        <div className="min-h-full w-full flex items-center justify-center py-16">
+          <div className="w-full max-w-xl px-10 flex flex-col gap-5">
 
-          <button onClick={() => router.back()} className="flex items-center gap-1.5 text-[13px] font-medium w-fit" style={{ color: PRIMARY }}>
-            <span className="material-symbols-rounded text-[18px]">arrow_back</span>
+          <button onClick={handleBack} className="flex items-center gap-1.5 text-[13px] font-medium w-fit" style={{ color: PRIMARY }}>
+            <ArrowLeft size={18} weight="bold" />
             Back
           </button>
 
           <div>
-            <p className="text-xs font-medium tracking-[0.15em] uppercase mb-3" style={{ color: PRIMARY }}>Your level</p>
-            <h1 className="text-[1.75rem] font-bold tracking-tight text-[#1a1c1e] leading-snug">
-              How well do you<br />know{" "}
-              <span style={{ color: PRIMARY }}>{firstSubject}</span>?
-            </h1>
-            <p className="text-sm text-[#44474f] mt-1.5">
-              Be honest — it helps us find the right fit.
+            <p className="text-xs font-medium tracking-[0.15em] uppercase mb-2" style={{ color: PRIMARY }}>
+              {subjects.length > 1 ? `Subject ${currentIndex + 1} of ${subjects.length}` : "Your level"}
             </p>
+            <h1 className="text-[1.75rem] font-bold tracking-tight text-[#1a1c1e] leading-snug">
+              How comfortable are<br />you with {currentSubject}?
+            </h1>
           </div>
 
-          {/* Level cards */}
-          <div className="flex flex-col gap-2.5">
-            {LEVELS.map(({ key, icon, label, desc }) => {
-              const isOn = selected === key;
+          <div className="flex flex-col gap-2.5 mt-2">
+            {LEVELS.map((level) => {
+              const Icon = level.icon;
+              const isSelected = currentLevelSelected === level.key;
+              const labelText = level.labelTemplate.replace("{subject}", currentSubject);
+
               return (
-                <button
-                  key={key}
-                  onClick={() => setSelected(key)}
-                  className="w-full text-left flex items-center gap-4 px-5 py-4 rounded-[16px] border transition-all duration-200"
+                <div
+                  key={level.key}
+                  onClick={() => handleLevelSelect(level.key)}
+                  className="flex items-center gap-4 px-5 py-4 rounded-[20px] border-[1.5px] transition-all cursor-pointer hover:bg-[#f4f4f8]"
                   style={{
-                    border: `1.5px solid ${isOn ? PRIMARY : "#e1e2ec"}`,
-                    backgroundColor: isOn ? PRIMARY_LIGHT : "#ffffff",
+                    backgroundColor: isSelected ? PRIMARY_LIGHT : "#f8f9fb",
+                    borderColor: isSelected ? PRIMARY : "transparent"
                   }}
                 >
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200"
-                    style={{ backgroundColor: isOn ? PRIMARY : "#ebebf0" }}
-                  >
-                    <span
-                      className="material-symbols-rounded text-[20px]"
-                      style={{ color: isOn ? "#ffffff" : "#5c5f6a" }}
-                    >
-                      {icon}
-                    </span>
+                  {/* Indicator */}
+                  <div className="flex flex-col gap-[3px] shrink-0">
+                    {[5, 4, 3, 2, 1].map((dot) => (
+                      <div 
+                        key={dot} 
+                        className="w-1 h-[6px] rounded-full transition-colors" 
+                        style={{ backgroundColor: dot <= level.levelIndicator ? (isSelected ? PRIMARY : "#44474f") : "#dce0ea" }}
+                      />
+                    ))}
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className="font-semibold text-[14px] leading-tight transition-colors duration-200"
-                      style={{ color: isOn ? PRIMARY : "#1a1c1e" }}
-                    >
-                      {label}
-                    </p>
-                    <p className="text-[12px] text-[#6b6f7a] mt-0.5 leading-relaxed">{desc}</p>
+                  <div className="shrink-0 flex items-center justify-center w-8">
+                    <Icon size={24} weight="regular" color={isSelected ? PRIMARY : "#44474f"} />
                   </div>
 
-                  {isOn
-                    ? <CheckCircle size={20} weight="fill" color={PRIMARY} className="shrink-0" />
-                    : <div className="w-5 h-5 rounded-full border-2 shrink-0" style={{ borderColor: "#c4c6d0" }} />
-                  }
-                </button>
-              );
+                  <div className="flex-1 flex flex-col gap-0.5 min-w-0">
+                    <p className="text-[15px] font-medium text-[#1a1c1e] truncate">{labelText}</p>
+                    <p className="text-[13px] text-[#6b6f7a] truncate">{level.desc}</p>
+                  </div>
+
+                  <div className="shrink-0 pl-2">
+                    {isSelected ? (
+                      <CheckCircle size={22} weight="fill" color={PRIMARY} />
+                    ) : (
+                      <Circle size={22} weight="regular" color="#dce0ea" />
+                    )}
+                  </div>
+                </div>
+              )
             })}
           </div>
 
-          {/* CTA */}
           <button
             onClick={handleContinue}
-            disabled={!selected}
-            className="w-full py-2.5 rounded-full text-[14px] font-medium tracking-[0.00625em] transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
-            style={{
-              backgroundColor: selected ? PRIMARY : `${PRIMARY}40`,
-              color: "#fff",
-              cursor: selected ? "pointer" : "not-allowed",
-            }}
+            disabled={!currentLevelSelected}
+            className={`group w-full h-[48px] rounded-full text-[14px] font-medium tracking-[0.1px] transition-all duration-500 flex items-center justify-center gap-2 mt-4 sticky bottom-8 ${
+              currentLevelSelected ? "active:scale-[0.98] hover:opacity-90 cursor-pointer shadow-sm" : "opacity-50 cursor-not-allowed"
+            }`}
+            style={{ backgroundColor: PRIMARY, color: "#ffffff" }}
           >
-            Find my tutors
-            <span className="material-symbols-rounded text-[18px]">arrow_forward</span>
+            {currentIndex < subjects.length - 1 ? "Next subject" : "Continue"}
+            <ArrowRight size={18} weight="bold" className={`transition-transform duration-300 ${currentLevelSelected ? "group-hover:translate-x-1" : ""}`} />
           </button>
 
+        </div>
         </div>
       </div>
     </div>
