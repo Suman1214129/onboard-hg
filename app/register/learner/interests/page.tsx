@@ -14,12 +14,14 @@ const OPTIONS = {
     label: "Academic",
     tagline: "School subjects, exams & competitive prep",
     tags: ["Maths", "Science", "English", "History", "Physics", "Chemistry", "Biology", "Languages"],
+    color: "#2251cc",
   },
   "non-academic": {
     icon: Palette,
     label: "Non-Academic",
     tagline: "Creative skills, hobbies & personal growth",
     tags: ["Music", "Art & Craft", "Coding", "Sports", "Dance", "Yoga", "Photography", "Chess"],
+    color: "#e07b2a",
   },
 } as const;
 
@@ -104,27 +106,27 @@ export default function LearnerInterestsPage() {
                   onClick={() => setSelected(key)}
                   className="w-full text-left rounded-[24px] overflow-hidden transition-all duration-300 relative group"
                   style={{
-                    border: `2px solid ${isSelected ? PRIMARY : "#e1e2ec"}`,
-                    backgroundColor: isSelected ? "#f8faff" : "#ffffff",
+                    border: `2px solid ${isSelected ? opt.color : "#e1e2ec"}`,
+                    backgroundColor: isSelected ? `${opt.color}08` : "#ffffff",
                   }}
                 >
                   {/* Header */}
                   <div className="px-5 pt-5 pb-4 flex items-center gap-4 relative z-10">
                     <div
                       className="w-12 h-12 rounded-[16px] flex items-center justify-center shrink-0 transition-colors duration-300"
-                      style={{ backgroundColor: isSelected ? PRIMARY : "#f4f4f8" }}
+                      style={{ backgroundColor: isSelected ? opt.color : "#f4f4f8" }}
                     >
                       <opt.icon
                         size={24}
                         weight={isSelected ? "fill" : "duotone"}
-                        color={isSelected ? "#ffffff" : PRIMARY}
+                        color={isSelected ? "#ffffff" : opt.color}
                       />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <p
                         className="font-bold text-[16px] leading-tight transition-colors duration-300"
-                        style={{ color: isSelected ? PRIMARY : "#1a1c1e" }}
+                        style={{ color: isSelected ? opt.color : "#1a1c1e" }}
                       >
                         {opt.label}
                       </p>
@@ -132,7 +134,7 @@ export default function LearnerInterestsPage() {
                     </div>
 
                     {isSelected
-                      ? <CheckCircle size={24} weight="fill" color={PRIMARY} className="shrink-0" />
+                      ? <CheckCircle size={24} weight="fill" color={opt.color} className="shrink-0" />
                       : <div className="w-6 h-6 rounded-full border-2 shrink-0 transition-colors group-hover:border-[#a0a3b0]" style={{ borderColor: "#dce0ea" }} />
                     }
                   </div>
@@ -140,16 +142,16 @@ export default function LearnerInterestsPage() {
                   {/* Tags */}
                   <div
                     className="px-5 pb-4 pt-3 flex flex-wrap gap-2"
-                    style={{ borderTop: `1px solid ${isSelected ? `${PRIMARY}20` : "#f0f0f5"}` }}
+                    style={{ borderTop: `1px solid ${isSelected ? `${opt.color}20` : "#f0f0f5"}` }}
                   >
                     {opt.tags.map((tag) => (
                       <span
                         key={tag}
                         className="text-[11.5px] font-medium px-3 py-1 rounded-full border transition-all duration-200"
                         style={{
-                          backgroundColor: isSelected ? `${PRIMARY}10` : "#f4f4f8",
-                          color: isSelected ? PRIMARY : "#5c5f6a",
-                          borderColor: isSelected ? `${PRIMARY}25` : "transparent",
+                          backgroundColor: isSelected ? `${opt.color}10` : "#f4f4f8",
+                          color: isSelected ? opt.color : "#5c5f6a",
+                          borderColor: isSelected ? `${opt.color}25` : "transparent",
                         }}
                       >
                         {tag}
